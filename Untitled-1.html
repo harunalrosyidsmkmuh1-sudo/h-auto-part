@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H Auto Part - Toko Spare Part Mobil Terpercaya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffd700;
+            color: #333;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "⚙️";
+            font-size: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&h=1080&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .products-section {
+            background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('https://statik.tempo.co/data/2024/10/28/id_1348945/1348945_720.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e3c72;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .btn-buy {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-buy:hover {
+            background: #2a5298;
+            transform: translateY(-2px);
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-modal.active {
+            display: flex;
+        }
+
+        .cart-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 1rem;
+        }
+
+        .cart-header h2 {
+            color: #1e3c72;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info h4 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .qty-btn:hover {
+            background: #2a5298;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .cart-total {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #1e3c72;
+            text-align: right;
+        }
+
+        .cart-total h3 {
+            color: #1e3c72;
+            font-size: 1.5rem;
+        }
+
+        .checkout-btn {
+            background: #ffd700;
+            color: #333;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .checkout-btn:hover {
+            background: #ffed4e;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .payment-methods {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .payment-methods h4 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .payment-option:hover {
+            border-color: #1e3c72;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .payment-logo {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .payment-logo.dana {
+            background: #118EEA;
+            color: white;
+        }
+
+        .payment-logo.bri {
+            background: #003d7a;
+            color: white;
+        }
+
+        .payment-logo.qris {
+            background: #EE3124;
+            color: white;
+        }
+
+        .payment-logo.bni {
+            background: #ED6C05;
+            color: white;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info h5 {
+            margin: 0;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .payment-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .features {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://statik.tempo.co/data/2024/10/28/id_1348945/1348945_720.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 4rem 0;
+        }
+
+        .features .section-title {
+            color: white;
+        }
+
+        .features .feature-box {
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact {
+            background: linear-gradient(rgba(30,60,114,0.9), rgba(42,82,152,0.9)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&h=1080&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #1e3c72;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        .social-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .social-btn.tiktok {
+            background: #000000;
+            color: white;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">H Auto Part</div>
+            <ul>
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#products">Produk</a></li>
+                <li><a href="#features">Keunggulan</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Selamat Datang di H Auto Part</h1>
+        <p>Pusat Spare Part Mobil Berkualitas & Terpercaya</p>
+        <a href="#products" class="btn">Lihat Produk Kami</a>
+    </section>
+
+    <section class="products-section" id="products">
+        <div class="container">
+        <h2 class="section-title">Produk Kami</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=500&h=300&fit=crop" alt="Mesin" class="product-image">
+                <h3>Mesin & Komponen</h3>
+                <p>Filter oli, busi, timing belt, dan berbagai komponen mesin berkualitas tinggi</p>
+                <div class="product-price">Rp 150.000</div>
+                <button class="btn-buy" onclick="addToCart('Mesin & Komponen', 150000, 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://www.auksi.co.id/get-image/artikel/1683880563carakerjaremcakram.webp" alt="Rem" class="product-image">
+                <h3>Sistem Rem</h3>
+                <p>Kampas rem, disc brake, master rem dari brand ternama</p>
+                <div class="product-price">Rp 250.000</div>
+                <button class="btn-buy" onclick="addToCart('Sistem Rem', 250000, 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1513828583688-c52646db42da?w=500&h=300&fit=crop" alt="Aki" class="product-image">
+                <h3>Kelistrikan</h3>
+                <p>Aki, alternator, dinamo starter, dan aksesori kelistrikan mobil</p>
+                <div class="product-price">Rp 800.000</div>
+                <button class="btn-buy" onclick="addToCart('Kelistrikan', 800000, 'https://images.unsplash.com/photo-1513828583688-c52646db42da?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6ePT6-OekB1xNPZEhkMZUtTnJpeLzfA-PQA&s" alt="Suspensi" class="product-image">
+                <h3>Suspensi</h3>
+                <p>Shock absorber, per, bushing, dan komponen kaki-kaki mobil</p>
+                <div class="product-price">Rp 450.000</div>
+                <button class="btn-buy" onclick="addToCart('Suspensi', 450000, 'https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=500&h=300&fit=crop" alt="Lampu" class="product-image">
+                <h3>Lampu & Body</h3>
+                <p>Lampu depan, belakang, sein, spion, dan aksesoris body</p>
+                <div class="product-price">Rp 350.000</div>
+                <button class="btn-buy" onclick="addToCart('Lampu & Body', 350000, 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiEpV5J707KnTKCVvcQNkNxv4ZS8y-RaoXoXTDsWptXoOakHCeoGWALH4ly1S0H8kKIouHbb0cbAH5apmdC1qrxuOOpil5JBfPtEHg7Pub7b-tWB3BpsinRA8GXemQ24KlQy19VbT-j12gZXxOwd0Jpk5NQV_mZ3vQ5xjoo7vWtwrnYBD7cRGxTD_Jgvg=s320" alt="Oli" class="product-image">
+                <h3>Oli & Fluida</h3>
+                <p>Oli mesin, transmisi, power steering, dan coolant berkualitas</p>
+                <div class="product-price">Rp 200.000</div>
+                <button class="btn-buy" onclick="addToCart('Oli & Fluida', 200000, 'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://acmobilstore.com/wp-content/uploads/2024/01/bengkel-spare-part-ac-mobil-jakarta.jpg" alt="AC" class="product-image">
+                <h3>Sistem AC</h3>
+                <p>Kompresor AC, kondensor, evaporator, dan freon mobil</p>
+                <div class="product-price">Rp 1.200.000</div>
+                <button class="btn-buy" onclick="addToCart('Sistem AC', 1200000, 'https://images.unsplash.com/photo-1609711175047-ced326fb5c6a?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM9l3S3fgLXcYt1CODNfKfGqtOOlU5PW0zkg&s" alt="Audio" class="product-image">
+                <h3>Audio & Multimedia</h3>
+                <p>Head unit, speaker, subwoofer, dan aksesori audio</p>
+                <div class="product-price">Rp 600.000</div>
+                <button class="btn-buy" onclick="addToCart('Audio & Multimedia', 600000, 'https://images.unsplash.com/photo-1558584673-c834fb4d05ee?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://storage.googleapis.com/prod-nissan-indonesia/static-assets/article/merawat-kaca-mobil.png.ximg.l_12_m.smart.png" alt="Interior" class="product-image">
+                <h3>Kaca & Interior</h3>
+                <p>Kaca mobil, karpet, jok, dashboard, dan aksesoris interior</p>
+                <div class="product-price">Rp 500.000</div>
+                <button class="btn-buy" onclick="addToCart('Kaca & Interior', 500000, 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1yGVH-UhsTAeFx9QczOCFK1xRruYGgqu7Tw&s" alt="Keamanan" class="product-image">
+                <h3>Sistem Keamanan</h3>
+                <p>Alarm, central lock, immobilizer, dan sistem keamanan</p>
+                <div class="product-price">Rp 750.000</div>
+                <button class="btn-buy" onclick="addToCart('Sistem Keamanan', 750000, 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0Tbw4P0Ap0wy2EOL22_TapfZR3ANEWKWL1g&s" alt="Bahan Bakar" class="product-image">
+                <h3>Sistem Bahan Bakar</h3>
+                <p>Pompa bensin, injector, filter bensin, dan fuel pump</p>
+                <div class="product-price">Rp 550.000</div>
+                <button class="btn-buy" onclick="addToCart('Sistem Bahan Bakar', 550000, 'https://images.unsplash.com/photo-1594745561149-2211ca8c5d98?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJP0inaNe8mvIooQ-1fhi0EY7mTMQ4a8o5hw&s" alt="Knalpot" class="product-image">
+                <h3>Exhaust System</h3>
+                <p>Knalpot, muffler, catalytic converter, dan pipa exhaust</p>
+                <div class="product-price">Rp 900.000</div>
+                <button class="btn-buy" onclick="addToCart('Exhaust System', 900000, 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://media.monotaro.id/mid01/full/Otomotif%2C%20Truk%20%26%20Sepeda%20Motor/Perkakas%2C%20Penyimpanan/Perkakas%20Set%20Otomotif/Perkakas%20Set/TEKIRO%20Mechanic%20Tools%20Set/rkP101003992-6.jpg" alt="Tools" class="product-image">
+                <h3>Tools & Equipment</h3>
+                <p>Kunci-kunci, dongkrak, toolkit, dan peralatan bengkel</p>
+                <div class="product-price">Rp 300.000</div>
+                <button class="btn-buy" onclick="addToCart('Tools & Equipment', 300000, 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-ThLal0SsIinRKpi5fUvmrJwlGEZC4IqhWQ&s" alt="Perawatan" class="product-image">
+                <h3>Perawatan & Care</h3>
+                <p>Wax, polish, shampoo mobil, dan produk detailing</p>
+                <div class="product-price">Rp 180.000</div>
+                <button class="btn-buy" onclick="addToCart('Perawatan & Care', 180000, 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://cdn.setirkanan.co.id/images/2024/03/22/a6fa9367f16cf28828f3e8ba205dbd2d906cc6e3/Banner-SK-ecu-mobil.webp" alt="Sensor" class="product-image">
+                <h3>Sensor & ECU</h3>
+                <p>Sensor oksigen, MAP, MAF, ECU, dan komponen elektronik</p>
+                <div class="product-price">Rp 650.000</div>
+                <button class="btn-buy" onclick="addToCart('Sensor & ECU', 650000, 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+            <div class="product-card">
+                <img src="https://gpsku.co.id/wp-content/uploads/2023/12/Nippon-Paint-Nippe-2000-Mulai-Rp80-ribuan.jpg" alt="Cat" class="product-image">
+                <h3>Cat & Body Repair</h3>
+                <p>Cat semprot, dempul, primer, dan alat body repair</p>
+                <div class="product-price">Rp 400.000</div>
+                <button class="btn-buy" onclick="addToCart('Cat & Body Repair', 400000, 'https://images.unsplash.com/photo-1612892483236-52d32a0e0ac1?w=500&h=300&fit=crop')">Beli Sekarang</button>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Mengapa Pilih H Auto Part?</h2>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">✅</div>
+                    <h3>Produk Original</h3>
+                    <p>Kami hanya menjual spare part original dan berkualitas</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">💰</div>
+                    <h3>Harga Bersaing</h3>
+                    <p>Harga terbaik dengan kualitas terjamin</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Pengiriman Cepat</h3>
+                    <p>Layanan pengiriman cepat ke seluruh Indonesia</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Garansi Resmi</h3>
+                    <p>Semua produk dilengkapi garansi resmi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Hubungi Kami</h2>
+        <p>Siap melayani kebutuhan spare part mobil Anda</p>
+        <div class="contact-info">
+            <div class="contact-item">
+                <span>📱</span>
+                <span>+62 812-3456-7890</span>
+            </div>
+            <div class="contact-item">
+                <span>📧</span>
+                <span>info@hautopart.com</span>
+            </div>
+            <div class="contact-item">
+                <span>📍</span>
+                <span>Malang, Jawa Timur</span>
+            </div>
+        </div>
+        
+        <div class="social-media">
+            <a href="https://wa.me/6281234567890" target="_blank" class="social-btn whatsapp">
+                <span>💬</span>
+                <span>WhatsApp</span>
+            </a>
+            <a href="https://instagram.com/hautopar" target="_blank" class="social-btn instagram">
+                <span>📸</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://tiktok.com/@harunaja20" target="_blank" class="social-btn tiktok">
+                <span>🎵</span>
+                <span>TikTok</span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 H Auto Part. All rights reserved.</p>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>🛒 Keranjang Belanja</h2>
+                <button class="close-cart" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cartItems"></div>
+            <div class="payment-methods">
+                <h4>💳 Pilih Metode Pembayaran</h4>
+                <div class="payment-grid">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="DANA" checked>
+                        <div class="payment-logo dana">💙</div>
+                        <div class="payment-info">
+                            <h5>DANA</h5>
+                            <p>E-Wallet</p>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="BRI">
+                        <div class="payment-logo bri">🏦</div>
+                        <div class="payment-info">
+                            <h5>Bank BRI</h5>
+                            <p>Transfer Bank</p>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="QRIS">
+                        <div class="payment-logo qris">📱</div>
+                        <div class="payment-info">
+                            <h5>QRIS</h5>
+                            <p>Scan & Pay</p>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="BNI">
+                        <div class="payment-logo bni">🏧</div>
+                        <div class="payment-info">
+                            <h5>Bank BNI</h5>
+                            <p>Transfer Bank</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="cart-total">
+                <h3>Total: <span id="cartTotal">Rp 0</span></h3>
+                <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(name, price, image) {
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showNotification('✅ Produk ditambahkan ke keranjang!');
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCart();
+        }
+
+        function updateQuantity(name, change) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(name);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart"><p>Keranjang belanja Anda kosong</p></div>';
+                cartTotal.textContent = 'Rp 0';
+                return;
+            }
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>Rp ${item.price.toLocaleString('id-ID')}</p>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                            <span style="padding: 0 10px; font-weight: bold;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart('${item.name}')">Hapus</button>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = 'Rp ' + total.toLocaleString('id-ID');
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Keranjang Anda kosong!');
+                return;
+            }
+            
+            const selectedPayment = document.querySelector('input[name="payment"]:checked');
+            const paymentMethod = selectedPayment ? selectedPayment.value : 'DANA';
+            
+            let message = 'Halo, saya ingin memesan:%0A%0A';
+            
+            cart.forEach(item => {
+                message += `• ${item.name}%0A`;
+                message += `  Jumlah: ${item.quantity}%0A`;
+                message += `  Harga: Rp ${(item.price * item.quantity).toLocaleString('id-ID')}%0A%0A`;
+            });
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `Total: Rp ${total.toLocaleString('id-ID')}%0A%0A`;
+            message += `Metode Pembayaran: ${paymentMethod}`;
+            
+            window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                z-index: 3000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
